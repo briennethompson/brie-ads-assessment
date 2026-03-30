@@ -23,3 +23,13 @@ ds_raw <- ds_raw %>%
 
 # Read in study controlled terminology file
 study_ct <- read_csv("question_1_sdtm/sdtm_ct.csv")
+
+# Map the topic variable IT.DSTERM to DS.DSTERM 
+ds <-
+  assign_no_ct(
+    raw_dat = ds_raw,
+    raw_var = "IT.DSTERM",
+    tgt_var = "DSTERM",
+    id_vars = oak_id_vars()
+  )
+

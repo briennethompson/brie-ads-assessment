@@ -15,3 +15,25 @@ adae_plot <- adae %>%
   ) %>%
   # Count AEs by treatment arm and severity
   dplyr::count(ACTARM, AESEV)
+
+# Define severity order for stacking (SEVERE at bottom, MILD at top)
+adae_plot <- adae_plot %>%
+  dplyr::mutate(
+    AESEV = factor(AESEV, levels = c("MILD", "MODERATE", "SEVERE"))
+  )
+
+# Build plot
+ae_severity_plot <- ggplot2::ggplot(
+  adae_plot,
+  ggplot2::aes(x = ACTARM, y = n, fill = AESEV)
+) +
+  ggplot2::geom_bar(stat = "identity", position = "stack") +
+  ggplot2::scale_fill_manual(
+    values = c(
+      "MILD"     = "#F8766D",   # pink/salmon
+      "MODERATE" = "#00BA38",   # green
+      "SEVERE"   = "#619CFF"    # blue
+    )
+  ) 
+
+ae_severity_plot

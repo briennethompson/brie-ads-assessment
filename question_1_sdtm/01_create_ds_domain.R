@@ -7,6 +7,7 @@ library(pharmaverseraw)
 library(pharmaversesdtm)
 library(dplyr)
 library(tidyverse)
+library(haven)
 
 # Read in raw disposition data 
 ds_raw <- pharmaverseraw::ds_raw
@@ -148,9 +149,22 @@ ds <- ds %>%
     tgt_var = "DSSEQ",
     rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC"))
 
+# Add variable labels
+attr(ds$STUDYID, "label") <- "Study Identifier"
+attr(ds$DOMAIN,  "label") <- "Domain Abbreviation"
+attr(ds$USUBJID, "label") <- "Unique Subject Identifier"
+attr(ds$DSSEQ,   "label") <- "Sequence Number"
+attr(ds$DSTERM,  "label") <- "Reported Term for the Disposition Event"
+attr(ds$DSDECOD, "label") <- "Standardized Disposition Term"
+attr(ds$DSCAT,   "label") <- "Category for Disposition Event"
+attr(ds$VISITNUM,"label") <- "Visit Number"
+attr(ds$VISIT,   "label") <- "Visit Name"
+attr(ds$DSDTC,   "label") <- "Date/Time of Collection"
+attr(ds$DSSTDTC, "label") <- "Start Date/Time of Disposition Event"
+attr(ds$DSSTDY,  "label") <- "Study Day of Start of Disposition Event"
 
-
-
+#Add dataset label
+attr(ds, "label") <- "Disposition"
 
 
 

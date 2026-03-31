@@ -1,13 +1,14 @@
 # Set working directory to project root
 setwd("/cloud/project/brie-ads-assessment")
 
-# Initialize libraries
+# Load libraries
 library(sdtm.oak)
 library(pharmaverseraw)
 library(pharmaversesdtm)
 library(dplyr)
 library(tidyverse)
 library(haven)
+library(xportr)
 
 # Read in raw disposition data 
 ds_raw <- pharmaverseraw::ds_raw
@@ -147,7 +148,12 @@ ds <- ds %>%
   # Derive sequence variable
   derive_seq(
     tgt_var = "DSSEQ",
-    rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC"))
+    rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC")
+    ) %>%
+  # Reorder variables and drop oak_id_vars
+  select("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", "DSDECOD", "DSCAT", 
+         "VISITNUM", "VISIT", "DSDTC", "DSSTDTC", "DSSTDY")
+   
 
 # Add variable labels
 attr(ds$STUDYID, "label") <- "Study Identifier"
@@ -165,6 +171,9 @@ attr(ds$DSSTDY,  "label") <- "Study Day of Start of Disposition Event"
 
 #Add dataset label
 attr(ds, "label") <- "Disposition"
+
+# Export DS dataset as xpt
+haven::write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
 
 
 

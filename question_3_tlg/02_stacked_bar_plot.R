@@ -43,3 +43,12 @@ ae_severity_plot <- ggplot2::ggplot(
   )
 
 ae_severity_plot
+
+# Save plot to output folder as png
+ggplot2::ggsave(
+  "question_3_tlg/output/02_stacked_bar_plot.png",
+  plot   = ae_severity_plot,
+  width  = 8,
+  height = 6,
+  dpi    = 300
+)

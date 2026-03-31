@@ -86,7 +86,26 @@ ds <- ds %>%
     tgt_var = "DSCAT",
     tgt_val = "OTHER EVENT",
     id_vars = oak_id_vars()
-  ) 
+  ) %>%
+  # Map datetime variables: DSDTC, DSSTDTC using assign_datetime
+  # Map DSSTDTC using assign_datetime from IT.DSSTDAT in ISO8601 format
+  assign_datetime(
+    raw_dat = ds_raw,
+    raw_var = "IT.DSSTDAT",
+    tgt_var = "DSSTDTC",
+    raw_fmt = "mm-dd-yyyy",
+    id_vars = oak_id_vars()
+  ) %>%
+  # Map DSDTC using assign_datetime from DSDTCOL and DSTMCOL in ISO8601 format
+  assign_datetime(
+    raw_dat = ds_raw,
+    raw_var = c("DSDTCOL", "DSTMCOL"),
+    tgt_var = "DSDTC",
+    raw_fmt = c(list("mm-dd-yyyy", "H:M"))
+  )
+
+
+
 
 
 

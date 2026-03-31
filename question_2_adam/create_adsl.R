@@ -152,5 +152,21 @@ adsl <- adsl %>%
       na.rm = TRUE
     )
   ) %>%
-  # Drop intermediate date variables
+  # # Drop intermediate variables
   dplyr::select(-vsdt_max, -aestdt_max, -dsstdt_max, -trtedt_max)
+
+# Add labels for newly derived variables
+attr(adsl$AGEGR9,   "label") <- "Pooled Age Group 9"
+attr(adsl$AGEGR9N,  "label") <- "Pooled Age Group 9 (N)"
+attr(adsl$TRTSDTM,  "label") <- "Datetime of First Exposure to Treatment"
+attr(adsl$TRTSTMF,  "label") <- "Time Imputation Flag for TRTSDTM"
+attr(adsl$TRTEDTM,  "label") <- "Datetime of Last Exposure to Treatment"
+attr(adsl$TRTETMF,  "label") <- "Time Imputation Flag for TRTEDTM"
+attr(adsl$ITTFL,    "label") <- "Intent-To-Treat Population Flag"
+attr(adsl$LSTALVDT, "label") <- "Date of Last Known Alive"
+
+#Add dataset label
+attr(adsl, "label") <- "Subject-Level Analysis Dataset"
+
+# Export final DS dataset as xpt
+haven::write_xpt(ds, path = "question_2_adam/output/adsl.xpt")

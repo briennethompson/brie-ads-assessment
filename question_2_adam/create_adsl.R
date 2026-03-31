@@ -51,4 +51,31 @@ adsl <- adsl %>%
     definition = agegr9_lookup
   )
 
+# Derive datetime for treatment start (TRTSDTM) and imputation flag (TRTSTMF)
+# Apply the imputation rule to EX
+ex_ext <- ex %>%
+  # Impute missing start times as the earliest time of the day
+  derive_vars_dtm(
+    dataset = .,
+    new_vars_prefix = "EXST",
+    dtc = EXSTDTC,
+    highest_imputation = "h",
+    time_imputation = "00:00:00",
+    flag_imputation = "time",
+    ignore_seconds_flag = TRUE
+  ) 
+
+# Merge ex_ext with our working dataset to derive TRTSDTM/TRTSTMF
+adsl <- adsl %>%
+  derive_vars_merged(
+    dataset_add = ex_ext,
+    # Derivation is only applied for a valid dose
+    filter_add = (EXDOSE > 0 |
+                    (EXDOSE == 0 &
+                       str_detect(EXTRT, "PLACEBO"))) & !is.na(EXSTDTM),
+    new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),
+    order = exprs(EXSTDTM, EXSEQ),
+    mode = "first",
+    by_vars = exprs(STUDYID, USUBJID)
+  )
 

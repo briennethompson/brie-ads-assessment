@@ -34,6 +34,12 @@ ae_severity_plot <- ggplot2::ggplot(
       "MODERATE" = "#00BA38",   # green
       "SEVERE"   = "#619CFF"    # blue
     )
-  ) 
+  ) +
+  ggplot2::labs(
+    title = "AE severity distribution by treatment",
+    x     = "Treatment Arm",
+    y     = "Count of AEs",
+    fill  = "Severity/Intensity"
+  )
 
 ae_severity_plot

@@ -86,8 +86,10 @@ ds <- ds %>%
     tgt_var = "DSCAT",
     tgt_val = "OTHER EVENT",
     id_vars = oak_id_vars()
-  ) %>%
-  # Map datetime variables: DSDTC, DSSTDTC using assign_datetime
+  ) 
+
+# Map timing and visit variables
+ds <- ds %>%
   # Map DSSTDTC using assign_datetime from IT.DSSTDAT in ISO8601 format
   assign_datetime(
     raw_dat = ds_raw,
@@ -102,7 +104,49 @@ ds <- ds %>%
     raw_var = c("DSDTCOL", "DSTMCOL"),
     tgt_var = "DSDTC",
     raw_fmt = c(list("mm-dd-yyyy", "H:M"))
-  )
+  ) %>%
+  # Map VISIT from INSTANCE using assign_ct
+  assign_ct(
+    raw_dat = ds_raw,
+    raw_var = "INSTANCE",
+    tgt_var = "VISIT",
+    ct_spec = study_ct,
+    ct_clst = "VISIT",
+    id_vars = oak_id_vars()
+  ) %>%
+  # Map VISITNUM from INSTANCE using assign_ct
+  # Note: CT needs to be updated to account for missing terms: "Ambul Ecg Removal", 
+  # "Unscheduled 6.1", "Unscheduled 1.1", "Unscheduled 5.1", "Unscheduled 4.1", 
+  # "Unscheduled 8.2", and "Unscheduled 13.1".
+  assign_ct(
+    raw_dat = ds_raw,
+    raw_var = "INSTANCE",
+    tgt_var = "VISITNUM",
+    ct_spec = study_ct,
+    ct_clst = "VISITNUM",
+    id_vars = oak_id_vars()
+  ) 
+
+# Derive/assign USUBJID, STUDYID, and DOMAIN using mutate from dplyr
+ds <- ds %>%
+  dplyr::mutate(
+    STUDYID = "CDISCPILOT01", # ref DM dataset
+    DOMAIN = "DS",
+    USUBJID = paste0("01-", ds_raw$patient_number) #ref DM dataset
+  ) %>%
+  # Derive DSSTDY - day relative to treatment start
+  derive_study_day(
+    sdtm_in = .,
+    dm_domain = dm,
+    tgdt = "DSSTDTC",
+    refdt = "RFXSTDTC",
+    study_day_var = "DSSTDY",
+    merge_key = "USUBJID"
+  ) %>%
+  # Derive sequence variable
+  derive_seq(
+    tgt_var = "DSSEQ",
+    rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC"))
 
 
 

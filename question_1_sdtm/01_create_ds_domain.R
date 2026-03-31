@@ -7,7 +7,6 @@ library(pharmaverseraw)
 library(pharmaversesdtm)
 library(dplyr)
 library(haven)
-library(xportr)
 library(readr)
 
 # Read in raw disposition data 
@@ -166,14 +165,5 @@ attr(ds$DSSTDY,  "label") <- "Study Day of Start of Disposition Event"
 #Add dataset label
 attr(ds, "label") <- "Disposition"
 
-# Export DS dataset as xpt
+# Export final DS dataset as xpt
 haven::write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
-
-
-
-
-
-
-
-
-

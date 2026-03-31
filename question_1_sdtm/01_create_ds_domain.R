@@ -167,3 +167,84 @@ attr(ds, "label") <- "Disposition"
 
 # Export final DS dataset as xpt
 haven::write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
+
+
+library(testthat)
+
+
+# ============================================
+# Add Tests - DS Domain Validation
+# ============================================
+
+testthat::test_that("DS domain has expected variables", {
+  expected_vars <- c("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", 
+                     "DSDECOD", "DSCAT", "VISITNUM", "VISIT", "DSDTC", 
+                     "DSSTDTC", "DSSTDY")
+  testthat::expect_equal(names(ds), expected_vars)
+})
+
+testthat::test_that("DOMAIN is always DS", {
+  testthat::expect_true(all(ds$DOMAIN == "DS"))
+})
+
+testthat::test_that("STUDYID is always CDISCPILOT01", {
+  testthat::expect_true(all(ds$STUDYID == "CDISCPILOT01"))
+})
+
+testthat::test_that("USUBJID is never missing", {
+  testthat::expect_false(any(is.na(ds$USUBJID)))
+})
+
+testthat::test_that("DSSEQ is never missing", {
+  testthat::expect_false(any(is.na(ds$DSSEQ)))
+})
+
+testthat::test_that("DSSEQ is unique within USUBJID", {
+  dupes <- ds %>%
+    dplyr::count(USUBJID, DSSEQ) %>%
+    dplyr::filter(n > 1)
+  testthat::expect_equal(nrow(dupes), 0)
+})
+
+testthat::test_that("DSTERM is never missing", {
+  testthat::expect_false(any(is.na(ds$DSTERM)))
+})
+
+testthat::test_that("DSDECOD is never missing", {
+  testthat::expect_false(any(is.na(ds$DSDECOD)))
+})
+
+testthat::test_that("DSCAT only contains valid values", {
+  valid_cats <- c("PROTOCOL MILESTONE", "DISPOSITION EVENT", "OTHER EVENT")
+  testthat::expect_true(all(ds$DSCAT %in% valid_cats))
+})
+
+testthat::test_that("DSCAT is never missing", {
+  testthat::expect_false(any(is.na(ds$DSCAT)))
+})
+
+testthat::test_that("DSSTDTC is in ISO8601 format", {
+  valid_dates <- ds$DSSTDTC[!is.na(ds$DSSTDTC)]
+  testthat::expect_true(all(grepl("^\\d{4}-\\d{2}-\\d{2}", valid_dates)))
+})
+
+testthat::test_that("DSDTC is in ISO8601 format", {
+  valid_dates <- ds$DSDTC[!is.na(ds$DSDTC)]
+  testthat::expect_true(all(grepl("^\\d{4}-\\d{2}-\\d{2}", valid_dates)))
+})
+
+testthat::test_that("DS domain has expected number of rows", {
+  testthat::expect_gt(nrow(ds), 0)
+})
+
+testthat::test_that("Variable labels are set correctly", {
+  testthat::expect_equal(attr(ds$STUDYID,  "label"), "Study Identifier")
+  testthat::expect_equal(attr(ds$DOMAIN,   "label"), "Domain Abbreviation")
+  testthat::expect_equal(attr(ds$USUBJID,  "label"), "Unique Subject Identifier")
+  testthat::expect_equal(attr(ds$DSSEQ,    "label"), "Sequence Number")
+  testthat::expect_equal(attr(ds$DSDECOD,  "label"), "Standardized Disposition Term")
+})
+
+testthat::test_that("XPT output file exists", {
+  testthat::expect_true(file.exists("question_1_sdtm/output/ds.xpt"))
+})

@@ -11,7 +11,7 @@ logrx link to repository: https://github.com/pharmaverse/logrx
 User: r632176
 File Name: 01_create_ds_domain.R
 File Path: /cloud/project/brie-ads-assessment/question_1_sdtm
-File HashSum: b1c6d5bd4aad3b05cfb93f7fc87bfa19b52be2a1
+File HashSum: 90e6d6bda8e0bb4e21845f1ccbdf16f2c2f15376
 --------------------------------------------------------------------------------
 -                             Session Information                              -
 --------------------------------------------------------------------------------
@@ -72,6 +72,7 @@ File HashSum: b1c6d5bd4aad3b05cfb93f7fc87bfa19b52be2a1
  tidyselect        1.2.1   2024-03-11 [1] RSPM
  timechange        0.4.0   2026-01-29 [1] RSPM
  tzdb              0.5.0   2025-03-15 [1] RSPM
+ utf8              1.2.6   2025-06-08 [1] RSPM
  vctrs             0.7.2   2026-03-21 [1] RSPM
  vroom             1.7.0   2026-01-27 [1] RSPM
  withr             3.0.2   2024-10-28 [1] RSPM
@@ -114,6 +115,18 @@ File HashSum: b1c6d5bd4aad3b05cfb93f7fc87bfa19b52be2a1
 --------------------------------------------------------------------------------
 -                               Masked Functions                               -
 --------------------------------------------------------------------------------
+function `dm` from {package:pharmaversesdtm} by .GlobalEnv
+function `ds` from {package:pharmaversesdtm} by .GlobalEnv
+function `ds_raw` from {package:pharmaverseraw} by .GlobalEnv
+function `problems` from {package:sdtm.oak} by package:readr
+function `filter` from {package:stats} by package:dplyr
+function `lag` from {package:stats} by package:dplyr
+function `intersect` from {package:base} by package:dplyr
+function `setdiff` from {package:base} by package:dplyr
+function `setequal` from {package:base} by package:dplyr
+function `union` from {package:base} by package:dplyr
+function `ts` from {package:stats} by package:pharmaversesdtm
+function `cm` from {package:grDevices} by package:pharmaversesdtm
 function `plot` from {package:base} by package:graphics
 function `body<-` from {package:base} by package:methods
 function `kronecker` from {package:base} by package:methods
@@ -128,9 +141,9 @@ function `kronecker` from {package:base} by package:methods
 --------------------------------------------------------------------------------
 -                         Program Run Time Information                         -
 --------------------------------------------------------------------------------
-Start time: 2026-03-31 15:31:13 UTC
-End time: 2026-03-31 15:31:18 UTC
-Run time: 5 seconds
+Start time: 2026-03-31 15:41:37 UTC
+End time: 2026-03-31 15:41:39 UTC
+Run time: 2 seconds
 --------------------------------------------------------------------------------
 -                             Errors and Warnings                              -
 --------------------------------------------------------------------------------
@@ -143,11 +156,6 @@ Warnings:
 -                         Messages, Output, and Result                         -
 --------------------------------------------------------------------------------
 Messages:
-	Attaching package: ‘dplyr’
-	The following objects are masked from ‘package:stats’:    filter, lag
-	The following objects are masked from ‘package:base’:    intersect, setdiff, setequal, union
-	Attaching package: ‘readr’
-	The following object is masked from ‘package:sdtm.oak’:    problems
 	Rows: 164 Columns: 6
 	── Column specification ─────────────────────────────────────────────────────────────Delimiter: ","chr (6): codelist_code, term_code, term_value, collected_value, term_preferred_te...
 	ℹ Use `spec()` to retrieve the full column specification for this data.ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -157,7 +165,7 @@ Messages:
 	ℹ These terms could not be mapped per the controlled terminology: "Ambul Ecg Removal", "Unscheduled 6.1", "Unscheduled 1.1", "Unscheduled 5.1", "Unscheduled 4.1", "Unscheduled 8.2", and "Unscheduled 13.1".
 Output:
 	
-	indexing sdtm_ct.csv [=========================================] 767.89MB/s, eta:  0s
+	indexing sdtm_ct.csv [===========================================] 1.04GB/s, eta:  0s
 	                                                                                     
 
 Result:

@@ -79,3 +79,9 @@ adsl <- adsl %>%
     by_vars = exprs(STUDYID, USUBJID)
   )
 
+# Derive ITTFL
+adsl <- adsl %>%
+  mutate(
+      ITTFL = if_else(!is.na(ARM), "Y", "N")
+  )
+

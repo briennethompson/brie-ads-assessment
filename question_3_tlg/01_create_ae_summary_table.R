@@ -28,6 +28,11 @@ tbl <- adae %>%
   # Add total column
   add_overall(last = TRUE, col_label = "**Total**") %>%
   # Sort by descending frequency using total column
-  sort_hierarchical(sort_by = "overall")
+  sort_hierarchical(sort_by = "overall") %>%
+  # Add title
+  modify_caption("**Table 1. Treatment Emergent Adverse Events by System Organ Class and Preferred Term**")
 
-tbl
+# Export as HTML
+tbl %>% 
+  as_gt() %>%
+  gt::gtsave("question_3_tlg/output/teae_summary_table.html")

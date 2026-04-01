@@ -10,7 +10,7 @@ library(haven)
 library(readr)
 library(testthat)
 
-# Read in raw disposition data 
+# Read in raw disposition data
 ds_raw <- pharmaverseraw::ds_raw
 
 # Read in SDTM DM (demog) data
@@ -26,27 +26,27 @@ ds_raw <- ds_raw %>%
 # Read in study controlled terminology file
 study_ct <- read_csv("question_1_sdtm/sdtm_ct.csv")
 
-# Map the topic variable IT.DSTERM to DS.DSTERM 
+# Map the topic variable IT.DSTERM to DS.DSTERM
 ds <-
   assign_no_ct(
     raw_dat = ds_raw,
     raw_var = "IT.DSTERM",
     tgt_var = "DSTERM",
     id_vars = oak_id_vars()
-  ) 
+  )
 
 # Map Qualifiers (DSDECOD AND DSCAT) and update DSTERM
 ds <- ds %>%
   # Update DSTERM - assign as OTHERSP when not missing OTHERSP
   assign_no_ct(
-    raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), #filter raw data
+    raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), # filter raw data
     raw_var = "OTHERSP",
     tgt_var = "DSTERM",
     id_vars = oak_id_vars()
   ) %>%
   # Map DSDECOD - if OTHERSP is missing map from IT.DSDECOD
   assign_ct(
-    raw_dat = condition_add(ds_raw, is.na(OTHERSP)), #filter raw data
+    raw_dat = condition_add(ds_raw, is.na(OTHERSP)), # filter raw data
     raw_var = "IT.DSDECOD",
     tgt_var = "DSDECOD",
     ct_spec = study_ct,
@@ -55,7 +55,7 @@ ds <- ds %>%
   ) %>%
   # Map DSDECOD - if OTHERSP is not missing map from OTHERSP
   assign_ct(
-    raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), #filter raw data
+    raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), # filter raw data
     raw_var = "OTHERSP",
     tgt_var = "DSDECOD",
     ct_spec = study_ct,
@@ -85,7 +85,7 @@ ds <- ds %>%
     tgt_var = "DSCAT",
     tgt_val = "OTHER EVENT",
     id_vars = oak_id_vars()
-  ) 
+  )
 
 # Map timing and visit variables
 ds <- ds %>%
@@ -121,14 +121,14 @@ ds <- ds %>%
     ct_spec = study_ct,
     ct_clst = "VISITNUM",
     id_vars = oak_id_vars()
-  ) 
+  )
 
 # Derive USUBJID, STUDYID, DOMAIN, DSSTDY and DSSEQ
 ds <- ds %>%
   mutate(
     STUDYID = "CDISCPILOT01", # ref DM dataset
     DOMAIN = "DS",
-    USUBJID = paste0("01-", ds_raw$patient_number) #ref DM dataset
+    USUBJID = paste0("01-", ds_raw$patient_number) # ref DM dataset
   ) %>%
   # Derive DSSTDY - study day relative to treatment start
   derive_study_day(
@@ -143,27 +143,29 @@ ds <- ds %>%
   derive_seq(
     tgt_var = "DSSEQ",
     rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC")
-    ) %>%
+  ) %>%
   # Reorder variables and drop oak_id_vars
-  select("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", "DSDECOD", "DSCAT", 
-         "VISITNUM", "VISIT", "DSDTC", "DSSTDTC", "DSSTDY")
-   
+  select(
+    "STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", "DSDECOD", "DSCAT",
+    "VISITNUM", "VISIT", "DSDTC", "DSSTDTC", "DSSTDY"
+  )
+
 
 # Add variable labels
 attr(ds$STUDYID, "label") <- "Study Identifier"
-attr(ds$DOMAIN,  "label") <- "Domain Abbreviation"
+attr(ds$DOMAIN, "label") <- "Domain Abbreviation"
 attr(ds$USUBJID, "label") <- "Unique Subject Identifier"
-attr(ds$DSSEQ,   "label") <- "Sequence Number"
-attr(ds$DSTERM,  "label") <- "Reported Term for the Disposition Event"
+attr(ds$DSSEQ, "label") <- "Sequence Number"
+attr(ds$DSTERM, "label") <- "Reported Term for the Disposition Event"
 attr(ds$DSDECOD, "label") <- "Standardized Disposition Term"
-attr(ds$DSCAT,   "label") <- "Category for Disposition Event"
-attr(ds$VISITNUM,"label") <- "Visit Number"
-attr(ds$VISIT,   "label") <- "Visit Name"
-attr(ds$DSDTC,   "label") <- "Date/Time of Collection"
+attr(ds$DSCAT, "label") <- "Category for Disposition Event"
+attr(ds$VISITNUM, "label") <- "Visit Number"
+attr(ds$VISIT, "label") <- "Visit Name"
+attr(ds$DSDTC, "label") <- "Date/Time of Collection"
 attr(ds$DSSTDTC, "label") <- "Start Date/Time of Disposition Event"
-attr(ds$DSSTDY,  "label") <- "Study Day of Start of Disposition Event"
+attr(ds$DSSTDY, "label") <- "Study Day of Start of Disposition Event"
 
-#Add dataset label
+# Add dataset label
 attr(ds, "label") <- "Disposition"
 
 # Export final DS dataset as xpt
@@ -175,9 +177,11 @@ write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
 # ============================================
 
 test_that("DS domain has expected variables", {
-  expected_vars <- c("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", 
-                     "DSDECOD", "DSCAT", "VISITNUM", "VISIT", "DSDTC", 
-                     "DSSTDTC", "DSSTDY")
+  expected_vars <- c(
+    "STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM",
+    "DSDECOD", "DSCAT", "VISITNUM", "VISIT", "DSDTC",
+    "DSSTDTC", "DSSTDY"
+  )
   expect_equal(names(ds), expected_vars)
 })
 

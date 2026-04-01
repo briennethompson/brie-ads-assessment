@@ -40,9 +40,9 @@ ae_severity_plot <- ggplot(
   geom_bar(stat = "identity", position = "stack") +
   scale_fill_manual(
     values = c(
-      "MILD"     = "#F8766D",   # pink/salmon
-      "MODERATE" = "#00BA38",   # green
-      "SEVERE"   = "#619CFF"    # blue
+      "MILD"     = "#F8766D", # pink/salmon
+      "MODERATE" = "#00BA38", # green
+      "SEVERE"   = "#619CFF" # blue
     )
   ) +
   labs(
@@ -78,13 +78,13 @@ n_subj <- adsl %>%
 # Count unique subjects per AETERM and calculate proportions and CIs
 ae_forest <- adae %>%
   filter(
-    SAFFL   == "Y",
+    SAFFL == "Y",
     !is.na(AETERM)
   ) %>%
   # Count unique subjects per AE term
   group_by(AETERM) %>%
   summarise(n_ae = n_distinct(USUBJID)) %>%
-  ungroup() %>% #remove grouping
+  ungroup() %>% # remove grouping
   # Calculate percentage and Clopper-Pearson CIs
   mutate(
     pct      = n_ae / n_subj,
@@ -97,7 +97,7 @@ ae_forest <- adae %>%
   # Order ascending for plot (most frequent at top)
   arrange(pct) %>%
   # Convert AETERM to factor to maintain the order for the plot
-  mutate(AETERM = factor(AETERM, levels = AETERM)) 
+  mutate(AETERM = factor(AETERM, levels = AETERM))
 
 # Build the plot
 
@@ -108,8 +108,8 @@ ae_forest_plot <- ggplot(
   # Confidence interval lines
   geom_errorbar(
     aes(xmin = ci_lower, xmax = ci_upper),
-    orientation = "y",    # makes it horizontal
-    width     = 0.2,      # note: width not height in new syntax
+    orientation = "y", # makes it horizontal
+    width = 0.2, # note: width not height in new syntax
     linewidth = 0.8
   ) +
   # Point estimates
@@ -126,7 +126,7 @@ ae_forest_plot <- ggplot(
     subtitle = paste0("n = ", n_subj, " subjects; 95% Clopper-Pearson CIs"),
     x        = "Percentage of Patients (%)",
     y        = NULL # remove y axis label
-  ) 
+  )
 
 # Display plot
 ae_forest_plot

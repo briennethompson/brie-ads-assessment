@@ -1,7 +1,7 @@
 # Set working directory to project root
 setwd("/cloud/project/brie-ads-assessment")
 
-# Load libraries 
+# Load libraries
 library(pharmaverseadam)
 library(dplyr)
 library(gtsummary)
@@ -39,12 +39,12 @@ tbl <- adae %>%
   modify_caption("**Table 1. Treatment Emergent Adverse Events by System Organ Class and Preferred Term**")
 
 # Export as HTML
-tbl %>% 
+tbl %>%
   as_gt() %>%
   gtsave("question_3_tlg/output/teae_summary_table.html")
 
 # ============================================
-# Add Tests 
+# Add Tests
 # ============================================
 
 test_that("Table has expected treatment arms", {

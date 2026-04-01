@@ -21,7 +21,7 @@ ae <- pharmaversesdtm::ae
 vs <- pharmaversesdtm::vs
 suppdm <- pharmaversesdtm::suppdm
 
-# Reformat missing values to NA 
+# Reformat missing values to NA
 dm <- convert_blanks_to_na(dm)
 ds <- convert_blanks_to_na(ds)
 ex <- convert_blanks_to_na(ex)
@@ -72,7 +72,7 @@ ex_ext <- ex %>%
     time_imputation = "last",
     flag_imputation = "time",
     ignore_seconds_flag = TRUE
-  ) 
+  )
 
 # Merge ex_ext with our working dataset to derive TRTSDTM/TRTSTMF/TRTEDTM/TRTENMF
 adsl <- adsl %>%
@@ -81,8 +81,8 @@ adsl <- adsl %>%
     dataset_add = ex_ext,
     # Derivation is only applied for a valid dose
     filter_add = (EXDOSE > 0 |
-                    (EXDOSE == 0 &
-                       str_detect(EXTRT, "PLACEBO"))) & !is.na(EXSTDTM),
+      (EXDOSE == 0 &
+        str_detect(EXTRT, "PLACEBO"))) & !is.na(EXSTDTM),
     new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),
     order = exprs(EXSTDTM, EXSEQ),
     mode = "first",
@@ -93,8 +93,8 @@ adsl <- adsl %>%
     dataset_add = ex_ext,
     # Derivation is only applied for a valid dose
     filter_add = (EXDOSE > 0 |
-                    (EXDOSE == 0 &
-                       str_detect(EXTRT, "PLACEBO"))) & !is.na(EXENDTM),
+      (EXDOSE == 0 &
+        str_detect(EXTRT, "PLACEBO"))) & !is.na(EXENDTM),
     new_vars = exprs(TRTEDTM = EXENDTM, TRTETMF = EXENTMF),
     order = exprs(EXENDTM, EXSEQ),
     mode = "last",
@@ -104,7 +104,7 @@ adsl <- adsl %>%
 # Derive ITTFL
 adsl <- adsl %>%
   mutate(
-      ITTFL = if_else(!is.na(ARM), "Y", "N")
+    ITTFL = if_else(!is.na(ARM), "Y", "N")
   )
 
 # Derive LSTALVDT from VS, AE, DS, and ADSL
@@ -118,7 +118,7 @@ get_last_date <- function(data, dtc_var, output_var) {
     filter(!is.na(temp_date)) %>%
     group_by(USUBJID) %>%
     summarise(
-      !!output_var := max(temp_date, na.rm = TRUE), 
+      !!output_var := max(temp_date, na.rm = TRUE),
       .groups = "drop"
     )
 }
@@ -152,7 +152,7 @@ adsl <- adsl %>%
       vsdt_max,
       aestdt_max,
       dsstdt_max,
-      trtedt_max,             
+      trtedt_max,
       na.rm = TRUE
     )
   ) %>%
@@ -160,16 +160,16 @@ adsl <- adsl %>%
   select(-vsdt_max, -aestdt_max, -dsstdt_max, -trtedt_max)
 
 # Add labels for newly derived variables
-attr(adsl$AGEGR9,   "label") <- "Pooled Age Group 9"
-attr(adsl$AGEGR9N,  "label") <- "Pooled Age Group 9 (N)"
-attr(adsl$TRTSDTM,  "label") <- "Datetime of First Exposure to Treatment"
-attr(adsl$TRTSTMF,  "label") <- "Time Imputation Flag for TRTSDTM"
-attr(adsl$TRTEDTM,  "label") <- "Datetime of Last Exposure to Treatment"
-attr(adsl$TRTETMF,  "label") <- "Time Imputation Flag for TRTEDTM"
-attr(adsl$ITTFL,    "label") <- "Intent-To-Treat Population Flag"
+attr(adsl$AGEGR9, "label") <- "Pooled Age Group 9"
+attr(adsl$AGEGR9N, "label") <- "Pooled Age Group 9 (N)"
+attr(adsl$TRTSDTM, "label") <- "Datetime of First Exposure to Treatment"
+attr(adsl$TRTSTMF, "label") <- "Time Imputation Flag for TRTSDTM"
+attr(adsl$TRTEDTM, "label") <- "Datetime of Last Exposure to Treatment"
+attr(adsl$TRTETMF, "label") <- "Time Imputation Flag for TRTEDTM"
+attr(adsl$ITTFL, "label") <- "Intent-To-Treat Population Flag"
 attr(adsl$LSTALVDT, "label") <- "Date of Last Known Alive"
 
-#Add dataset label
+# Add dataset label
 attr(adsl, "label") <- "Subject-Level Analysis Dataset"
 
 # Export final ADSL dataset as xpt
@@ -184,7 +184,7 @@ test_that("ADSL has one record per subject", {
   expect_equal(nrow(adsl), dplyr::n_distinct(adsl$USUBJID))
 })
 
-# Population Flag Tests 
+# Population Flag Tests
 test_that("ITTFL only contains Y or N", {
   expect_true(all(adsl$ITTFL %in% c("Y", "N")))
 })
@@ -199,7 +199,7 @@ test_that("ITTFL is Y when ARM is not missing", {
   ))
 })
 
-# Treatment Datetime Tests 
+# Treatment Datetime Tests
 test_that("TRTSDTM is before or equal to TRTEDTM", {
   treated <- adsl %>%
     filter(!is.na(TRTSDTM) & !is.na(TRTEDTM))

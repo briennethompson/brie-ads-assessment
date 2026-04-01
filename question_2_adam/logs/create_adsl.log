@@ -11,11 +11,11 @@ logrx link to repository: https://github.com/pharmaverse/logrx
 User: r632176
 File Name: create_adsl.R
 File Path: /cloud/project/brie-ads-assessment/question_2_adam
-File HashSum: eedac832169f2a60c9bc7a0d7b6ba4a1ebad335b
+File HashSum: 4f3b8c28b6fd99de85141c581705cdf28a167b50
 --------------------------------------------------------------------------------
 -                             Session Information                              -
 --------------------------------------------------------------------------------
-─ Session info ─────────────────────────────────────────────────────────────────
+─ Session info ──────────────────────────────────────────────────────────
  setting  value
  version  R version 4.5.3 (2026-03-11)
  os       Ubuntu 24.04.4 LTS
@@ -25,63 +25,84 @@ File HashSum: eedac832169f2a60c9bc7a0d7b6ba4a1ebad335b
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2026-03-31
+ date     2026-04-01
  rstudio  2026.01.1+403.pro11 Apple Blossom (server)
  pandoc   NA
  quarto   1.8.27 @ /usr/bin/quarto
 
-─ Packages ─────────────────────────────────────────────────────────────────────
+─ Packages ──────────────────────────────────────────────────────────────
  package         * version date (UTC) lib source
  admiral         * 1.4.1   2026-02-03 [1] RSPM
  admiraldev        1.4.0   2026-01-14 [1] RSPM
- backports         1.5.0   2024-05-23 [1] RSPM
+ assertthat        0.2.1   2019-03-21 [1] RSPM
+ bit               4.6.0   2025-03-06 [1] RSPM
+ bit64             4.6.0-1 2025-01-16 [1] RSPM
+ brio              1.1.5   2024-04-24 [1] RSPM
  cellranger        1.1.0   2016-07-27 [1] RSPM
- checkmate         2.3.4   2026-02-03 [1] RSPM
  cli               3.6.5   2025-04-23 [1] RSPM
+ crayon            1.5.3   2024-06-20 [1] RSPM
+ desc              1.4.3   2023-12-10 [1] RSPM
  digest            0.6.39  2025-11-19 [1] RSPM
  dplyr           * 1.2.0   2026-02-03 [1] RSPM
  evaluate          1.0.5   2025-08-27 [1] RSPM
+ farver            2.1.2   2024-05-13 [1] RSPM
  forcats           1.0.1   2025-09-25 [1] RSPM
  generics          0.1.4   2025-05-09 [1] RSPM
+ ggplot2         * 4.0.2   2026-02-03 [1] RSPM
  glue              1.8.0   2024-09-30 [1] RSPM
- haven             2.5.5   2025-05-30 [1] RSPM
+ gtable            0.3.6   2024-10-25 [1] RSPM
+ haven           * 2.5.5   2025-05-30 [1] RSPM
  hms               1.1.4   2025-10-17 [1] RSPM
  knitr             1.51    2025-12-20 [1] RSPM
+ labeling          0.4.3   2023-08-29 [1] RSPM
  lifecycle         1.0.5   2026-01-08 [1] RSPM
  logrx             0.4.0   2025-05-05 [1] RSPM
  lubridate       * 1.9.5   2026-02-04 [1] RSPM
  magrittr          2.0.4   2025-09-12 [1] RSPM
  metacore        * 0.2.1   2025-07-21 [1] RSPM
  metatools       * 0.2.0   2025-07-16 [1] RSPM
+ pharmaverseadam * 1.3.0   2026-02-20 [1] RSPM
+ pharmaverseraw  * 0.1.1   2025-08-30 [1] RSPM
  pharmaversesdtm * 1.4.1   2026-03-30 [1] RSPM
  pillar            1.11.1  2025-09-17 [1] RSPM
  pkgconfig         2.0.3   2019-09-22 [1] RSPM
- purrr             1.2.1   2026-01-09 [1] RSPM
+ pkgload           1.5.0   2026-02-03 [1] RSPM
+ purrr           * 1.2.1   2026-01-09 [1] RSPM
  R6                2.6.1   2025-02-15 [1] RSPM
- readr             2.2.0   2026-02-19 [1] RSPM
+ ragg              1.5.2   2026-03-23 [1] RSPM
+ RColorBrewer      1.1-3   2022-04-03 [1] RSPM
+ readr           * 2.2.0   2026-02-19 [1] RSPM
  readxl            1.4.5   2025-03-07 [1] RSPM
  rlang             1.1.7   2026-01-09 [1] RSPM
  roxygen2          7.3.3   2025-09-03 [1] RSPM
+ rprojroot         2.1.1   2025-08-26 [1] RSPM
  rstudioapi        0.18.0  2026-01-16 [1] RSPM
+ S7                0.2.1   2025-11-14 [1] RSPM
+ scales          * 1.4.0   2025-04-24 [1] RSPM
+ sdtm.oak        * 0.2.0   2025-05-22 [1] RSPM
  sessioninfo       1.2.3   2025-02-05 [1] RSPM
  stringi           1.8.7   2025-03-27 [1] RSPM
  stringr         * 1.6.0   2025-11-04 [1] RSPM
+ systemfonts       1.3.2   2026-03-05 [1] RSPM
+ testthat        * 3.3.2   2026-01-11 [1] RSPM
+ textshaping       1.0.5   2026-03-06 [1] RSPM
  tibble            3.3.1   2026-01-11 [1] RSPM
  tidyr           * 1.3.2   2025-12-19 [1] RSPM
  tidyselect        1.2.1   2024-03-11 [1] RSPM
  timechange        0.4.0   2026-01-29 [1] RSPM
  tzdb              0.5.0   2025-03-15 [1] RSPM
  vctrs             0.7.2   2026-03-21 [1] RSPM
+ vroom             1.7.0   2026-01-27 [1] RSPM
+ waldo             0.6.2   2025-07-11 [1] RSPM
  withr             3.0.2   2024-10-28 [1] RSPM
  xfun              0.57    2026-03-20 [1] RSPM
  xml2              1.5.2   2026-01-17 [1] RSPM
- xportr          * 0.5.0   2026-01-13 [1] RSPM
 
  [1] /cloud/lib/x86_64-pc-linux-gnu-library/4.5
  [2] /opt/R/4.5.3/lib/R/library
  * ── Packages attached to the search path.
 
-─ External software ────────────────────────────────────────────────────────────
+─ External software ─────────────────────────────────────────────────────
  setting        value
  cairo          1.18.0
  cairoFT
@@ -105,67 +126,67 @@ File HashSum: eedac832169f2a60c9bc7a0d7b6ba4a1ebad335b
 	  lapack         /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so
  lapack_version 3.12.0
 
-─ Python configuration ─────────────────────────────────────────────────────────
+─ Python configuration ──────────────────────────────────────────────────
  Python is not available
 
-────────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────
 --------------------------------------------------------------------------------
 -                               Masked Functions                               -
 --------------------------------------------------------------------------------
-function `ae` from {package:pharmaversesdtm} by .GlobalEnv
-function `dm` from {package:pharmaversesdtm} by .GlobalEnv
-function `ds` from {package:pharmaversesdtm} by .GlobalEnv
-function `ex` from {package:pharmaversesdtm} by .GlobalEnv
-function `suppdm` from {package:pharmaversesdtm} by .GlobalEnv
-function `vs` from {package:pharmaversesdtm} by .GlobalEnv
-function `%>%` from {package:tidyr, package:dplyr, package:admiral, package:metatools, package:metacore} by package:stringr
-function `intersect` from {package:dplyr, package:base} by package:lubridate
-function `setdiff` from {package:dplyr, package:base} by package:lubridate
-function `union` from {package:dplyr, package:base} by package:lubridate
-function `ms` from {package:pharmaversesdtm} by package:lubridate
-function `Arith` from {package:methods} by package:lubridate
-function `Compare` from {package:methods} by package:lubridate
-function `show` from {package:methods} by package:lubridate
-function `as.difftime` from {package:base} by package:lubridate
-function `date` from {package:base} by package:lubridate
-function `all_of` from {package:dplyr} by package:tidyr
-function `any_of` from {package:dplyr} by package:tidyr
-function `as_tibble` from {package:dplyr} by package:tidyr
-function `contains` from {package:dplyr} by package:tidyr
-function `ends_with` from {package:dplyr} by package:tidyr
-function `everything` from {package:dplyr} by package:tidyr
-function `last_col` from {package:dplyr} by package:tidyr
-function `matches` from {package:dplyr} by package:tidyr
-function `num_range` from {package:dplyr} by package:tidyr
-function `one_of` from {package:dplyr} by package:tidyr
-function `starts_with` from {package:dplyr} by package:tidyr
-function `tibble` from {package:dplyr} by package:tidyr
-function `tribble` from {package:dplyr} by package:tidyr
-function `desc` from {package:admiral} by package:dplyr
-function `filter` from {package:stats} by package:dplyr
-function `lag` from {package:stats} by package:dplyr
-function `setequal` from {package:base} by package:dplyr
+function `adae` from {package:pharmaverseadam} by .GlobalEnv
+function `adsl` from {package:pharmaverseadam} by .GlobalEnv
+function `problems` from {package:sdtm.oak} by package:readr
+function `edition_get` from {package:testthat} by package:readr
+function `local_edition` from {package:testthat} by package:readr
+function `col_factor` from {package:scales} by package:readr
 function `ts` from {package:stats} by package:pharmaversesdtm
 function `cm` from {package:grDevices} by package:pharmaversesdtm
+function `%>%` from {package:purrr, package:dplyr} by package:testthat
+function `discard` from {package:purrr} by package:scales
+function `alpha` from {package:ggplot2} by package:scales
+function `%||%` from {package:base} by package:purrr
+function `as_label` from {package:ggplot2} by package:dplyr
+function `enexpr` from {package:ggplot2} by package:dplyr
+function `enexprs` from {package:ggplot2} by package:dplyr
+function `enquo` from {package:ggplot2} by package:dplyr
+function `enquos` from {package:ggplot2} by package:dplyr
+function `ensym` from {package:ggplot2} by package:dplyr
+function `ensyms` from {package:ggplot2} by package:dplyr
+function `expr` from {package:ggplot2} by package:dplyr
+function `quo` from {package:ggplot2} by package:dplyr
+function `quo_name` from {package:ggplot2} by package:dplyr
+function `quos` from {package:ggplot2} by package:dplyr
+function `sym` from {package:ggplot2} by package:dplyr
+function `syms` from {package:ggplot2} by package:dplyr
+function `vars` from {package:ggplot2} by package:dplyr
+function `filter` from {package:stats} by package:dplyr
+function `lag` from {package:stats} by package:dplyr
+function `intersect` from {package:base} by package:dplyr
+function `setdiff` from {package:base} by package:dplyr
+function `setequal` from {package:base} by package:dplyr
+function `union` from {package:base} by package:dplyr
+function `Position` from {package:base} by package:ggplot2
 function `plot` from {package:base} by package:graphics
 function `body<-` from {package:base} by package:methods
 function `kronecker` from {package:base} by package:methods
 --------------------------------------------------------------------------------
 -                          Used Package and Functions                          -
 --------------------------------------------------------------------------------
+{!!! NOT FOUND !!!} get_last_date
 {package:admiral} convert_blanks_to_na, exprs, derive_vars_cat, derive_vars_dtm, derive_vars_merged, convert_dtc_to_dtm
-{package:base} setwd, library, is.na, max, pmax, attr
-{package:dplyr} select, between, mutate, if_else, filter, group_by, summarise, left_join
+{package:base} setwd, library, is.na, max, pmax, attr, nrow, all, c, %in%, any, file.exists
+{package:dplyr} select, between, mutate, if_else, filter, group_by, summarise, left_join, n_distinct
 {package:haven} write_xpt
 {package:lubridate} date
 {package:metatools} combine_supp
 {package:stringr} %>%, str_detect
+{package:testthat} test_that, expect_equal, expect_true, expect_false
 --------------------------------------------------------------------------------
 -                         Program Run Time Information                         -
 --------------------------------------------------------------------------------
-Start time: 2026-03-31 20:17:13 UTC
-End time: 2026-03-31 20:17:14 UTC
-Run time: 1 seconds
+Start time: 2026-04-01 21:05:56 UTC
+End time: 2026-04-01 21:05:59 UTC
+Run time: 3 seconds
 --------------------------------------------------------------------------------
 -                             Errors and Warnings                              -
 --------------------------------------------------------------------------------
@@ -178,27 +199,18 @@ Warnings:
 -                         Messages, Output, and Result                         -
 --------------------------------------------------------------------------------
 Messages:
-	
+	Attaching package: ‘lubridate’
+	The following objects are masked from ‘package:base’:    date, intersect, setdiff, union
 Output:
-	
+	Test passed with 1 success 🥇.
+	Test passed with 1 success 🎊.
+	Test passed with 1 success 🥇.
+	Test passed with 1 success 🎊.
+	Test passed with 1 success 🌈.
+	Test passed with 1 success 🥇.
 
 Result:
-	# A tibble: 850 × 13
-	   STUDYID  DOMAIN USUBJID DSSEQ DSSPID DSTERM DSDECOD DSCAT VISITNUM VISIT DSDTC DSSTDTC
-	   <chr>    <chr>  <chr>   <int> <chr>  <chr>  <chr>   <chr>    <dbl> <chr> <chr> <chr>  
-	 1 CDISCPI… DS     01-701…     1 <NA>   RANDO… RANDOM… PROT…        3 BASE… 2014… 2014-0…
-	 2 CDISCPI… DS     01-701…     2 <NA>   PROTO… COMPLE… DISP…       13 WEEK… 2014… 2014-0…
-	 3 CDISCPI… DS     01-701…     3 <NA>   FINAL… FINAL … OTHE…       13 WEEK… 2014… 2014-0…
-	 4 CDISCPI… DS     01-701…     1 <NA>   RANDO… RANDOM… PROT…        3 BASE… 2012… 2012-0…
-	 5 CDISCPI… DS     01-701…     2 24     ADVER… ADVERS… DISP…        5 WEEK… 2012… 2012-0…
-	 6 CDISCPI… DS     01-701…     3 <NA>   FINAL… FINAL … OTHE…        5 WEEK… 2012… 2012-0…
-	 7 CDISCPI… DS     01-701…     4 <NA>   FINAL… FINAL … OTHE…      201 RETR… 2013… 2013-0…
-	 8 CDISCPI… DS     01-701…     1 <NA>   RANDO… RANDOM… PROT…        3 BASE… 2013… 2013-0…
-	 9 CDISCPI… DS     01-701…     2 <NA>   PROTO… COMPLE… DISP…       13 WEEK… 2014… 2014-0…
-	10 CDISCPI… DS     01-701…     3 <NA>   FINAL… FINAL … OTHE…       13 WEEK… 2014… 2014-0…
-	# ℹ 840 more rows
-	# ℹ 1 more variable: DSSTDY <dbl>
-	# ℹ Use `print(n = ...)` to see more rows
+	[1] TRUE
 --------------------------------------------------------------------------------
 -                               Log Output File                                -
 --------------------------------------------------------------------------------

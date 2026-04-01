@@ -1,3 +1,6 @@
+# Set working directory to project root
+setwd("/cloud/project/brie-ads-assessment")
+
 # load libraries
 library(pharmaverseadam)
 library(ggplot2)
@@ -103,9 +106,10 @@ ae_forest_plot <- ggplot(
   aes(x = pct, y = AETERM)
 ) +
   # Confidence interval lines
-  geom_errorbarh(
+  geom_errorbar(
     aes(xmin = ci_lower, xmax = ci_upper),
-    height    = 0.2,
+    orientation = "y",    # makes it horizontal
+    width     = 0.2,      # note: width not height in new syntax
     linewidth = 0.8
   ) +
   # Point estimates
@@ -135,18 +139,3 @@ ggsave(
   height = 6,
   dpi    = 300
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

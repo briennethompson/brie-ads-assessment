@@ -14,7 +14,7 @@ setwd("/cloud/project/brie-ads-assessment")
 #)
 
 logrx::axecute(
-  "question_3_tlg/02_stacked_bar_plot.R",
-  log_name = "02_stacked_bar_plot.log",
+  "question_3_tlg/02_create_visualizations.R",
+  log_name = "02_create_visualizations.log",
   log_path = "question_3_tlg/logs"
 )

@@ -3,8 +3,6 @@ setwd("/cloud/project/brie-ads-assessment")
 
 # Load libraries
 library(sdtm.oak)
-library(pharmaverseraw)
-library(pharmaversesdtm)
 library(dplyr)
 library(haven)
 library(readr)
@@ -17,17 +15,17 @@ dm <- pharmaversesdtm::dm
 
 # Create oak_id_vars
 ds_raw <- ds_raw %>%
-  sdtm.oak::generate_oak_id_vars(
+  generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "ds_raw"
   )
 
 # Read in study controlled terminology file
-study_ct <- readr::read_csv("question_1_sdtm/sdtm_ct.csv")
+study_ct <- read_csv("question_1_sdtm/sdtm_ct.csv")
 
 # Map the topic variable IT.DSTERM to DS.DSTERM 
 ds <-
-  sdtm.oak::assign_no_ct(
+  assign_no_ct(
     raw_dat = ds_raw,
     raw_var = "IT.DSTERM",
     tgt_var = "DSTERM",
@@ -37,14 +35,14 @@ ds <-
 # Map Qualifiers (DSDECOD AND DSCAT) and update DSTERM
 ds <- ds %>%
   # Update DSTERM - assign as OTHERSP when not missing OTHERSP
-  sdtm.oak::assign_no_ct(
+  assign_no_ct(
     raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), #filter raw data
     raw_var = "OTHERSP",
     tgt_var = "DSTERM",
     id_vars = oak_id_vars()
   ) %>%
   # Map DSDECOD - if OTHERSP is missing map from IT.DSDECOD
-  sdtm.oak::assign_ct(
+  assign_ct(
     raw_dat = condition_add(ds_raw, is.na(OTHERSP)), #filter raw data
     raw_var = "IT.DSDECOD",
     tgt_var = "DSDECOD",
@@ -53,7 +51,7 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Map DSDECOD - if OTHERSP is not missing map from OTHERSP
-  sdtm.oak::assign_ct(
+  assign_ct(
     raw_dat = condition_add(ds_raw, !is.na(OTHERSP)), #filter raw data
     raw_var = "OTHERSP",
     tgt_var = "DSDECOD",
@@ -62,7 +60,7 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Assign DSCAT - PROTOCOL MILESTONE when IT.DSDECOD = Randomized
-  sdtm.oak::hardcode_no_ct(
+  hardcode_no_ct(
     raw_dat = condition_add(ds_raw, IT.DSDECOD == "Randomized"),
     raw_var = "IT.DSDECOD",
     tgt_var = "DSCAT",
@@ -70,7 +68,7 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Assign DSCAT - DISPOSITION EVENT when IT.DSDECOD != Randomized
-  sdtm.oak::hardcode_no_ct(
+  hardcode_no_ct(
     raw_dat = condition_add(ds_raw, IT.DSDECOD != "Randomized"),
     raw_var = "IT.DSDECOD",
     tgt_var = "DSCAT",
@@ -78,7 +76,7 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Assign DSCAT - OTHER EVENT when OTHERSP is not missing
-  sdtm.oak::hardcode_no_ct(
+  hardcode_no_ct(
     raw_dat = condition_add(ds_raw, !is.na(OTHERSP)),
     raw_var = "OTHERSP",
     tgt_var = "DSCAT",
@@ -89,7 +87,7 @@ ds <- ds %>%
 # Map timing and visit variables
 ds <- ds %>%
   # Map DSSTDTC from IT.DSSTDAT in ISO8601 format
-  sdtm.oak::assign_datetime(
+  assign_datetime(
     raw_dat = ds_raw,
     raw_var = "IT.DSSTDAT",
     tgt_var = "DSSTDTC",
@@ -97,14 +95,14 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Map DSDTC from DSDTCOL and DSTMCOL in ISO8601 format
-  sdtm.oak::assign_datetime(
+  assign_datetime(
     raw_dat = ds_raw,
     raw_var = c("DSDTCOL", "DSTMCOL"),
     tgt_var = "DSDTC",
     raw_fmt = c(list("mm-dd-yyyy", "H:M"))
   ) %>%
   # Map VISIT from INSTANCE using CT
-  sdtm.oak::assign_ct(
+  assign_ct(
     raw_dat = ds_raw,
     raw_var = "INSTANCE",
     tgt_var = "VISIT",
@@ -113,7 +111,7 @@ ds <- ds %>%
     id_vars = oak_id_vars()
   ) %>%
   # Map VISITNUM from INSTANCE using CT
-  sdtm.oak::assign_ct(
+  assign_ct(
     raw_dat = ds_raw,
     raw_var = "INSTANCE",
     tgt_var = "VISITNUM",
@@ -124,13 +122,13 @@ ds <- ds %>%
 
 # Derive USUBJID, STUDYID, DOMAIN, DSSTDY and DSSEQ
 ds <- ds %>%
-  dplyr::mutate(
+  mutate(
     STUDYID = "CDISCPILOT01", # ref DM dataset
     DOMAIN = "DS",
     USUBJID = paste0("01-", ds_raw$patient_number) #ref DM dataset
   ) %>%
   # Derive DSSTDY - study day relative to treatment start
-  sdtm.oak::derive_study_day(
+  derive_study_day(
     sdtm_in = .,
     dm_domain = dm,
     tgdt = "DSSTDTC",
@@ -139,12 +137,12 @@ ds <- ds %>%
     merge_key = "USUBJID"
   ) %>%
   # Derive sequence variable
-  sdtm.oak::derive_seq(
+  derive_seq(
     tgt_var = "DSSEQ",
     rec_vars = c("USUBJID", "DSTERM", "DSDECOD", "DSCAT", "DSDTC", "DSSTDTC")
     ) %>%
   # Reorder variables and drop oak_id_vars
-  dplyr::select("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", "DSDECOD", "DSCAT", 
+  select("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", "DSDECOD", "DSCAT", 
          "VISITNUM", "VISIT", "DSDTC", "DSSTDTC", "DSSTDY")
    
 
@@ -166,4 +164,31 @@ attr(ds$DSSTDY,  "label") <- "Study Day of Start of Disposition Event"
 attr(ds, "label") <- "Disposition"
 
 # Export final DS dataset as xpt
-haven::write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
+write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
+
+
+# ============================================
+# Add Tests - DS Domain Validation
+# ============================================
+
+testthat::test_that("DS domain has expected variables", {
+  expected_vars <- c("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", 
+                     "DSDECOD", "DSCAT", "VISITNUM", "VISIT", "DSDTC", 
+                     "DSSTDTC", "DSSTDY")
+  testthat::expect_equal(names(ds), expected_vars)
+})
+
+testthat::test_that("USUBJID is non missing", {
+  testthat::expect_false(any(is.na(ds$USUBJID)))
+})
+
+testthat::test_that("DSSEQ is unique within USUBJID", {
+  dupes <- ds %>%
+    dplyr::count(USUBJID, DSSEQ) %>%
+    dplyr::filter(n > 1)
+  testthat::expect_equal(nrow(dupes), 0)
+})
+
+testthat::test_that("DSTERM is non missing", {
+  testthat::expect_false(any(is.na(ds$DSTERM)))
+})

@@ -11,11 +11,11 @@ logrx link to repository: https://github.com/pharmaverse/logrx
 User: r632176
 File Name: 01_create_ds_domain.R
 File Path: /cloud/project/brie-ads-assessment/question_1_sdtm
-File HashSum: d915fb9917670e1b2552f68d226be44963751569
+File HashSum: e0fdb51effe3b829e6314903b020fb93ee9aebda
 --------------------------------------------------------------------------------
 -                             Session Information                              -
 --------------------------------------------------------------------------------
-─ Session info ───────────────────────────────────────────────────────────────
+─ Session info ─────────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.5.3 (2026-03-11)
  os       Ubuntu 24.04.4 LTS
@@ -30,7 +30,7 @@ File HashSum: d915fb9917670e1b2552f68d226be44963751569
  pandoc   NA
  quarto   1.8.27 @ /usr/bin/quarto
 
-─ Packages ───────────────────────────────────────────────────────────────────
+─ Packages ─────────────────────────────────────────────────────────────────────
  package         * version date (UTC) lib source
  admiraldev        1.4.0   2026-01-14 [1] RSPM
  assertthat        0.2.1   2019-03-21 [1] RSPM
@@ -43,44 +43,34 @@ File HashSum: d915fb9917670e1b2552f68d226be44963751569
  digest            0.6.39  2025-11-19 [1] RSPM
  dplyr           * 1.2.0   2026-02-03 [1] RSPM
  evaluate          1.0.5   2025-08-27 [1] RSPM
- farver            2.1.2   2024-05-13 [1] RSPM
  forcats           1.0.1   2025-09-25 [1] RSPM
  generics          0.1.4   2025-05-09 [1] RSPM
- ggplot2         * 4.0.2   2026-02-03 [1] RSPM
  glue              1.8.0   2024-09-30 [1] RSPM
- gtable            0.3.6   2024-10-25 [1] RSPM
  haven           * 2.5.5   2025-05-30 [1] RSPM
  hms               1.1.4   2025-10-17 [1] RSPM
  knitr             1.51    2025-12-20 [1] RSPM
- labeling          0.4.3   2023-08-29 [1] RSPM
  lifecycle         1.0.5   2026-01-08 [1] RSPM
  logrx             0.4.0   2025-05-05 [1] RSPM
  lubridate         1.9.5   2026-02-04 [1] RSPM
  magrittr          2.0.4   2025-09-12 [1] RSPM
- pharmaverseadam * 1.3.0   2026-02-20 [1] RSPM
+ otel              0.2.0   2025-08-29 [1] RSPM
  pharmaverseraw  * 0.1.1   2025-08-30 [1] RSPM
  pharmaversesdtm * 1.4.1   2026-03-30 [1] RSPM
  pillar            1.11.1  2025-09-17 [1] RSPM
  pkgconfig         2.0.3   2019-09-22 [1] RSPM
  pkgload           1.5.0   2026-02-03 [1] RSPM
- purrr           * 1.2.1   2026-01-09 [1] RSPM
+ purrr             1.2.1   2026-01-09 [1] RSPM
  R6                2.6.1   2025-02-15 [1] RSPM
- ragg              1.5.2   2026-03-23 [1] RSPM
- RColorBrewer      1.1-3   2022-04-03 [1] RSPM
  readr           * 2.2.0   2026-02-19 [1] RSPM
  rlang             1.1.7   2026-01-09 [1] RSPM
  roxygen2          7.3.3   2025-09-03 [1] RSPM
  rprojroot         2.1.1   2025-08-26 [1] RSPM
  rstudioapi        0.18.0  2026-01-16 [1] RSPM
- S7                0.2.1   2025-11-14 [1] RSPM
- scales          * 1.4.0   2025-04-24 [1] RSPM
  sdtm.oak        * 0.2.0   2025-05-22 [1] RSPM
  sessioninfo       1.2.3   2025-02-05 [1] RSPM
  stringi           1.8.7   2025-03-27 [1] RSPM
  stringr           1.6.0   2025-11-04 [1] RSPM
- systemfonts       1.3.2   2026-03-05 [1] RSPM
  testthat        * 3.3.2   2026-01-11 [1] RSPM
- textshaping       1.0.5   2026-03-06 [1] RSPM
  tibble            3.3.1   2026-01-11 [1] RSPM
  tidyr             1.3.2   2025-12-19 [1] RSPM
  tidyselect        1.2.1   2024-03-11 [1] RSPM
@@ -97,7 +87,7 @@ File HashSum: d915fb9917670e1b2552f68d226be44963751569
  [2] /opt/R/4.5.3/lib/R/library
  * ── Packages attached to the search path.
 
-─ External software ──────────────────────────────────────────────────────────
+─ External software ────────────────────────────────────────────────────────────
  setting        value
  cairo          1.18.0
  cairoFT
@@ -121,40 +111,13 @@ File HashSum: d915fb9917670e1b2552f68d226be44963751569
 	  lapack         /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so
  lapack_version 3.12.0
 
-─ Python configuration ───────────────────────────────────────────────────────
+─ Python configuration ─────────────────────────────────────────────────────────
  Python is not available
 
-──────────────────────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────────────────────────
 --------------------------------------------------------------------------------
 -                               Masked Functions                               -
 --------------------------------------------------------------------------------
-function `adae` from {package:pharmaverseadam} by .GlobalEnv
-function `adsl` from {package:pharmaverseadam} by .GlobalEnv
-function `%>%` from {package:purrr, package:dplyr} by package:testthat
-function `discard` from {package:purrr} by package:scales
-function `alpha` from {package:ggplot2} by package:scales
-function `%||%` from {package:base} by package:purrr
-function `as_label` from {package:ggplot2} by package:dplyr
-function `enexpr` from {package:ggplot2} by package:dplyr
-function `enexprs` from {package:ggplot2} by package:dplyr
-function `enquo` from {package:ggplot2} by package:dplyr
-function `enquos` from {package:ggplot2} by package:dplyr
-function `ensym` from {package:ggplot2} by package:dplyr
-function `ensyms` from {package:ggplot2} by package:dplyr
-function `expr` from {package:ggplot2} by package:dplyr
-function `quo` from {package:ggplot2} by package:dplyr
-function `quo_name` from {package:ggplot2} by package:dplyr
-function `quos` from {package:ggplot2} by package:dplyr
-function `sym` from {package:ggplot2} by package:dplyr
-function `syms` from {package:ggplot2} by package:dplyr
-function `vars` from {package:ggplot2} by package:dplyr
-function `filter` from {package:stats} by package:dplyr
-function `lag` from {package:stats} by package:dplyr
-function `intersect` from {package:base} by package:dplyr
-function `setdiff` from {package:base} by package:dplyr
-function `setequal` from {package:base} by package:dplyr
-function `union` from {package:base} by package:dplyr
-function `Position` from {package:base} by package:ggplot2
 function `plot` from {package:base} by package:graphics
 function `body<-` from {package:base} by package:methods
 function `kronecker` from {package:base} by package:methods
@@ -170,8 +133,8 @@ function `kronecker` from {package:base} by package:methods
 --------------------------------------------------------------------------------
 -                         Program Run Time Information                         -
 --------------------------------------------------------------------------------
-Start time: 2026-04-01 21:04:17 UTC
-End time: 2026-04-01 21:04:20 UTC
+Start time: 2026-04-01 22:14:13 UTC
+End time: 2026-04-01 22:14:16 UTC
 Run time: 3 seconds
 --------------------------------------------------------------------------------
 -                             Errors and Warnings                              -
@@ -185,12 +148,15 @@ Warnings:
 -                         Messages, Output, and Result                         -
 --------------------------------------------------------------------------------
 Messages:
+	Attaching package: ‘dplyr’
+	The following objects are masked from ‘package:stats’:    filter, lag
+	The following objects are masked from ‘package:base’:    intersect, setdiff, setequal, union
 	Attaching package: ‘readr’
 	The following object is masked from ‘package:sdtm.oak’:    problems
-	The following objects are masked from ‘package:testthat’:    edition_get, local_edition
-	The following object is masked from ‘package:scales’:    col_factor
+	Attaching package: ‘testthat’
+	The following objects are masked from ‘package:readr’:    edition_get, local_edition
 	Rows: 164 Columns: 6
-	── Column specification ────────────────────────────────────────────────────────Delimiter: ","chr (6): codelist_code, term_code, term_value, collected_value, term_preferr...
+	── Column specification ──────────────────────────────────────────────────────────────────Delimiter: ","chr (6): codelist_code, term_code, term_value, collected_value, term_preferred_term, t...
 	ℹ Use `spec()` to retrieve the full column specification for this data.ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 	ℹ These terms could not be mapped per the controlled terminology: "Randomized", "Completed", "Study Terminated by Sponsor", "Screen Failure", and "Lost to Follow-Up".
 	ℹ These terms could not be mapped per the controlled terminology: "Final Lab Visit" and "Final Retrieval Visit".
@@ -198,16 +164,13 @@ Messages:
 	ℹ These terms could not be mapped per the controlled terminology: "Ambul Ecg Removal", "Unscheduled 6.1", "Unscheduled 1.1", "Unscheduled 5.1", "Unscheduled 4.1", "Unscheduled 8.2", and "Unscheduled 13.1".
 Output:
 	
-	indexing sdtm_ct.csv [====================================] 767.89MB/s, eta:  0s
-	                                                                                
-	
-	indexing sdtm_ct.csv [=====================================] 26.24MB/s, eta:  0s
-	                                                                                
+	indexing sdtm_ct.csv [================================================] 1.04GB/s, eta:  0s
+	                                                                                          
+	Test passed with 1 success 🎊.
 	Test passed with 1 success 🎉.
 	Test passed with 1 success 🎉.
-	Test passed with 1 success 🥇.
-	Test passed with 1 success 🌈.
-	Test passed with 1 success 😸.
+	Test passed with 1 success 🥳.
+	Test passed with 1 success 🥳.
 
 Result:
 	[1] TRUE

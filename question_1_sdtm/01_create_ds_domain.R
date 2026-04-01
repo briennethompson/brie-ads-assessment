@@ -2,6 +2,8 @@
 setwd("/cloud/project/brie-ads-assessment")
 
 # Load libraries
+library(pharmaverseraw)
+library(pharmaversesdtm)
 library(sdtm.oak)
 library(dplyr)
 library(haven)
@@ -172,24 +174,28 @@ write_xpt(ds, path = "question_1_sdtm/output/ds.xpt")
 # Add Tests - DS Domain Validation
 # ============================================
 
-testthat::test_that("DS domain has expected variables", {
+test_that("DS domain has expected variables", {
   expected_vars <- c("STUDYID", "DOMAIN", "USUBJID", "DSSEQ", "DSTERM", 
                      "DSDECOD", "DSCAT", "VISITNUM", "VISIT", "DSDTC", 
                      "DSSTDTC", "DSSTDY")
-  testthat::expect_equal(names(ds), expected_vars)
+  expect_equal(names(ds), expected_vars)
 })
 
-testthat::test_that("USUBJID is non missing", {
-  testthat::expect_false(any(is.na(ds$USUBJID)))
+test_that("USUBJID is non missing", {
+  expect_false(any(is.na(ds$USUBJID)))
 })
 
-testthat::test_that("DSSEQ is unique within USUBJID", {
+test_that("DSSEQ is unique within USUBJID", {
   dupes <- ds %>%
-    dplyr::count(USUBJID, DSSEQ) %>%
-    dplyr::filter(n > 1)
-  testthat::expect_equal(nrow(dupes), 0)
+    count(USUBJID, DSSEQ) %>%
+    filter(n > 1)
+  expect_equal(nrow(dupes), 0)
 })
 
-testthat::test_that("DSTERM is non missing", {
-  testthat::expect_false(any(is.na(ds$DSTERM)))
+test_that("DSTERM is non missing", {
+  expect_false(any(is.na(ds$DSTERM)))
+})
+
+test_that("XPT output file exists", {
+  expect_true(file.exists("question_1_sdtm/output/ds.xpt"))
 })

@@ -4,12 +4,13 @@ setwd("/cloud/project/brie-ads-assessment")
 # Load libraries
 library(metacore)
 library(metatools)
+library(pharmaversesdtm)
 library(admiral)
-library(xportr)
 library(dplyr)
 library(tidyr)
 library(lubridate)
 library(stringr)
+library(haven)
 library(testthat)
 
 # Read in input SDTM data
@@ -171,7 +172,7 @@ attr(adsl$LSTALVDT, "label") <- "Date of Last Known Alive"
 #Add dataset label
 attr(adsl, "label") <- "Subject-Level Analysis Dataset"
 
-# Export final DS dataset as xpt
+# Export final ADSL dataset as xpt
 write_xpt(adsl, path = "question_2_adam/output/adsl.xpt")
 
 # ============================================
@@ -179,28 +180,34 @@ write_xpt(adsl, path = "question_2_adam/output/adsl.xpt")
 # ============================================
 
 # Make sure ADSL has the expected structure
-testthat::test_that("ADSL has one record per subject", {
-  testthat::expect_equal(nrow(adsl), dplyr::n_distinct(adsl$USUBJID))
+test_that("ADSL has one record per subject", {
+  expect_equal(nrow(adsl), dplyr::n_distinct(adsl$USUBJID))
 })
 
 # Population Flag Tests 
-testthat::test_that("ITTFL only contains Y or N", {
-  testthat::expect_true(all(adsl$ITTFL %in% c("Y", "N")))
+test_that("ITTFL only contains Y or N", {
+  expect_true(all(adsl$ITTFL %in% c("Y", "N")))
 })
 
-testthat::test_that("ITTFL is never missing", {
-  testthat::expect_false(any(is.na(adsl$ITTFL)))
+test_that("ITTFL is never missing", {
+  expect_false(any(is.na(adsl$ITTFL)))
 })
 
-testthat::test_that("ITTFL is Y when ARM is not missing", {
-  testthat::expect_true(all(
+test_that("ITTFL is Y when ARM is not missing", {
+  expect_true(all(
     adsl$ITTFL == "Y" | is.na(adsl$ARM)
   ))
 })
 
-# -- Treatment Datetime Tests --
-testthat::test_that("TRTSDTM is before or equal to TRTEDTM", {
+# Treatment Datetime Tests 
+test_that("TRTSDTM is before or equal to TRTEDTM", {
   treated <- adsl %>%
-    dplyr::filter(!is.na(TRTSDTM) & !is.na(TRTEDTM))
-  testthat::expect_true(all(treated$TRTSDTM <= treated$TRTEDTM))
+    filter(!is.na(TRTSDTM) & !is.na(TRTEDTM))
+  expect_true(all(treated$TRTSDTM <= treated$TRTEDTM))
+})
+
+test_that("XPT output file exists", {
+  expect_true(
+    file.exists("question_2_adam/output/adsl.xpt")
+  )
 })

@@ -1,4 +1,5 @@
 # load libraries
+library(pharmaverseadam)
 library(ggplot2)
 library(dplyr)
 library(purrr)
@@ -31,7 +32,7 @@ adae_plot <- adae_plot %>%
 # Build plot
 ae_severity_plot <- ggplot(
   adae_plot,
-  ggplot2::aes(x = ACTARM, y = n, fill = AESEV)
+  aes(x = ACTARM, y = n, fill = AESEV)
 ) +
   geom_bar(stat = "identity", position = "stack") +
   scale_fill_manual(
@@ -68,7 +69,7 @@ ggsave(
 # Derive the total number of subjects for denominator
 n_subj <- adsl %>%
   filter(SAFFL == "Y") %>%
-  summarise(n = dplyr::n_distinct(USUBJID)) %>%
+  summarise(n = n_distinct(USUBJID)) %>%
   pull(n) # extract n and store as a vector
 
 # Count unique subjects per AETERM and calculate proportions and CIs

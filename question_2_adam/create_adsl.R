@@ -4,13 +4,13 @@ setwd("/cloud/project/brie-ads-assessment")
 # Load libraries
 library(metacore)
 library(metatools)
-library(pharmaversesdtm)
 library(admiral)
 library(xportr)
 library(dplyr)
 library(tidyr)
 library(lubridate)
 library(stringr)
+library(testthat)
 
 # Read in input SDTM data
 dm <- pharmaversesdtm::dm
@@ -29,7 +29,7 @@ vs <- convert_blanks_to_na(vs)
 suppdm <- convert_blanks_to_na(suppdm)
 
 # Combine parent and supplemental demog data
-dm_suppdm <- metatools::combine_supp(dm, suppdm)
+dm_suppdm <- combine_supp(dm, suppdm)
 
 # Use combined demog data as basis for ADSL
 adsl <- dm_suppdm %>%
@@ -37,7 +37,7 @@ adsl <- dm_suppdm %>%
 
 # Derive age grouping variables - AGEGR9 and AGEGR9N
 # Create lookup table for AGEGR9/AGEGR9N
-agegr9_lookup <- admiral::exprs(
+agegr9_lookup <- exprs(
   ~condition,            ~AGEGR9, ~AGEGR9N,
   AGE < 18,                "<18",        1,
   between(AGE, 18, 50),  "18-50",        2,
@@ -108,27 +108,30 @@ adsl <- adsl %>%
 
 # Derive LSTALVDT from VS, AE, DS, and ADSL
 
+# Function to get last date per subject from source dataset
+get_last_date <- function(data, dtc_var, output_var) {
+  data %>%
+    mutate(temp_date = lubridate::date(
+      convert_dtc_to_dtm({{ dtc_var }})
+    )) %>%
+    filter(!is.na(temp_date)) %>%
+    group_by(USUBJID) %>%
+    summarise(
+      !!output_var := max(temp_date, na.rm = TRUE), 
+      .groups = "drop"
+    )
+}
+
 # VS: Latest complete assessment date with valid result
 vs_pre <- vs %>%
-  filter(!is.na(VSSTRESN) | !is.na(VSSTRESC)) %>% # VSSTRESN or VSSTRESN nonmissing
-  mutate(VSDT = date(convert_dtc_to_dtm(VSDTC))) %>%
-  filter(!is.na(VSDT)) %>%
-  group_by(USUBJID) %>%
-  summarise(vsdt_max = max(VSDT, na.rm = TRUE))
+  filter(!is.na(VSSTRESN) | !is.na(VSSTRESC)) %>%
+  get_last_date(VSDTC, "vsdt_max")
 
 # AE: Last complete onset date
-ae_pre <- ae %>%
-  mutate(AESTDT = date(convert_dtc_to_dtm(AESTDTC))) %>%
-  filter(!is.na(AESTDT)) %>%
-  group_by(USUBJID) %>%
-  summarise(aestdt_max = max(AESTDT, na.rm = TRUE))
+ae_pre <- get_last_date(ae, AESTDTC, "aestdt_max")
 
 # DS: Last complete start date
-ds_pre <- ds %>%
-  mutate(DSSTDT = date(convert_dtc_to_dtm(DSSTDTC))) %>%
-  filter(!is.na(DSSTDT)) %>%
-  group_by(USUBJID) %>%
-  summarise(dsstdt_max = max(DSSTDT, na.rm = TRUE))
+ds_pre <- get_last_date(ds, DSSTDTC, "dsstdt_max")
 
 # Last treatment date with valid dose
 trt_pre <- adsl %>%
@@ -138,12 +141,12 @@ trt_pre <- adsl %>%
 
 # Merge all dates into ADSL and take max
 adsl <- adsl %>%
-  dplyr::left_join(vs_pre, by = "USUBJID") %>%
-  dplyr::left_join(ae_pre, by = "USUBJID") %>%
-  dplyr::left_join(ds_pre, by = "USUBJID") %>%
-  dplyr::left_join(trt_pre, by = "USUBJID") %>%
+  left_join(vs_pre, by = "USUBJID") %>%
+  left_join(ae_pre, by = "USUBJID") %>%
+  left_join(ds_pre, by = "USUBJID") %>%
+  left_join(trt_pre, by = "USUBJID") %>%
   # Derive LSTALVDT as max of all four dates
-  dplyr::mutate(
+  mutate(
     LSTALVDT = pmax(
       vsdt_max,
       aestdt_max,
@@ -153,7 +156,7 @@ adsl <- adsl %>%
     )
   ) %>%
   # # Drop intermediate variables
-  dplyr::select(-vsdt_max, -aestdt_max, -dsstdt_max, -trtedt_max)
+  select(-vsdt_max, -aestdt_max, -dsstdt_max, -trtedt_max)
 
 # Add labels for newly derived variables
 attr(adsl$AGEGR9,   "label") <- "Pooled Age Group 9"
@@ -169,4 +172,35 @@ attr(adsl$LSTALVDT, "label") <- "Date of Last Known Alive"
 attr(adsl, "label") <- "Subject-Level Analysis Dataset"
 
 # Export final DS dataset as xpt
-haven::write_xpt(ds, path = "question_2_adam/output/adsl.xpt")
+write_xpt(adsl, path = "question_2_adam/output/adsl.xpt")
+
+# ============================================
+# Add Tests - ADSL Validation
+# ============================================
+
+# Make sure ADSL has the expected structure
+testthat::test_that("ADSL has one record per subject", {
+  testthat::expect_equal(nrow(adsl), dplyr::n_distinct(adsl$USUBJID))
+})
+
+# Population Flag Tests 
+testthat::test_that("ITTFL only contains Y or N", {
+  testthat::expect_true(all(adsl$ITTFL %in% c("Y", "N")))
+})
+
+testthat::test_that("ITTFL is never missing", {
+  testthat::expect_false(any(is.na(adsl$ITTFL)))
+})
+
+testthat::test_that("ITTFL is Y when ARM is not missing", {
+  testthat::expect_true(all(
+    adsl$ITTFL == "Y" | is.na(adsl$ARM)
+  ))
+})
+
+# -- Treatment Datetime Tests --
+testthat::test_that("TRTSDTM is before or equal to TRTEDTM", {
+  treated <- adsl %>%
+    dplyr::filter(!is.na(TRTSDTM) & !is.na(TRTEDTM))
+  testthat::expect_true(all(treated$TRTSDTM <= treated$TRTEDTM))
+})

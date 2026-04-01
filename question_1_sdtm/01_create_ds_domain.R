@@ -6,6 +6,7 @@ library(sdtm.oak)
 library(dplyr)
 library(haven)
 library(readr)
+library(testthat)
 
 # Read in raw disposition data 
 ds_raw <- pharmaverseraw::ds_raw

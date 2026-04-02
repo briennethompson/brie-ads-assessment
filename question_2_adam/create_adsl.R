@@ -1,6 +1,9 @@
 # Set working directory to project root
 setwd("/cloud/project/brie-ads-assessment")
 
+# Load reusable helper functions
+source("utils/helper_functions.R")
+
 # Load libraries
 library(metacore)
 library(metatools)
@@ -108,20 +111,6 @@ adsl <- adsl %>%
   )
 
 # Derive LSTALVDT from VS, AE, DS, and ADSL
-
-# Function to get last date per subject from source dataset
-get_last_date <- function(data, dtc_var, output_var) {
-  data %>%
-    mutate(temp_date = lubridate::date(
-      convert_dtc_to_dtm({{ dtc_var }})
-    )) %>%
-    filter(!is.na(temp_date)) %>%
-    group_by(USUBJID) %>%
-    summarise(
-      !!output_var := max(temp_date, na.rm = TRUE),
-      .groups = "drop"
-    )
-}
 
 # VS: Latest complete assessment date with valid result
 vs_pre <- vs %>%

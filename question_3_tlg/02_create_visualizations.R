@@ -1,6 +1,9 @@
 # Set working directory to project root
 setwd("/cloud/project/brie-ads-assessment")
 
+# Load reusable plotting functions
+source("utils/plot_functions.R")
+
 # load libraries
 library(pharmaverseadam)
 library(ggplot2)
@@ -16,43 +19,31 @@ adae <- pharmaverseadam::adae
 # 1. Stacked Bar Chart
 # ======================================
 
-# Pre-process data
-adae_plot <- adae %>%
-  filter(
-    # Safety analysis set
-    SAFFL == "Y",
-    !is.na(AESEV)
-  ) %>%
-  # Count AEs by treatment arm and severity
-  count(ACTARM, AESEV)
+# Pre-process data for stacked bar chart
+adae_plot <- preprocess_stacked_bar(
+  data       = adae,
+  pop_var    = "SAFFL",
+  cat_var    = "AESEV",
+  cat_levels = c("MILD", "MODERATE", "SEVERE")
+)
 
-# Define severity order for stacking (SEVERE at bottom, MILD at top)
-adae_plot <- adae_plot %>%
-  mutate(
-    AESEV = factor(AESEV, levels = c("MILD", "MODERATE", "SEVERE"))
+# Generate stacked bar chart of AE Severity Distribution by Treatment
+ae_severity_plot <- plot_stacked_bar(
+  data       = adae_plot,
+  arm_var    = "ACTARM",
+  cat_var    = "AESEV",
+  title      = "AE Severity Distribution by Treatment",
+  x_label    = "Treatment Arm",
+  y_label    = "Count of AEs",
+  fill_label = "Severity/Intensity",
+  colors     = c(
+    "MILD"     = "#F8766D",
+    "MODERATE" = "#00BA38",
+    "SEVERE"   = "#619CFF"
   )
+)
 
-# Build plot
-ae_severity_plot <- ggplot(
-  adae_plot,
-  aes(x = ACTARM, y = n, fill = AESEV)
-) +
-  geom_bar(stat = "identity", position = "stack") +
-  scale_fill_manual(
-    values = c(
-      "MILD"     = "#F8766D", # pink/salmon
-      "MODERATE" = "#00BA38", # green
-      "SEVERE"   = "#619CFF" # blue
-    )
-  ) +
-  labs(
-    title = "AE severity distribution by treatment",
-    x     = "Treatment Arm",
-    y     = "Count of AEs",
-    fill  = "Severity/Intensity"
-  )
-
-ae_severity_plot
+#ae_severity_plot
 
 # Save plot to output folder as png
 ggsave(

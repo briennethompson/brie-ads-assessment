@@ -26,6 +26,26 @@ To clone this Github repository in Posit Cloud:
 | `question_2_adam/` | ADaM ADSL dataset creation using `admiral` |
 | `question_3_tlg/`  | TLF outputs using `gtsummary` and `ggplot2` |
 | `question_4/`      | Bonus GenAI clinical data assistant in Python |
+| `utils/`           | Reusable helper and plotting functions shared across programs |
+
+---
+
+## Utility Functions
+
+### `utils/plot_functions.R`
+Reusable plotting functions used in `02_create_visualizations.R`:
+
+| Function | Purpose |
+|----------|---------|
+| `preprocess_stacked_bar()` | Filters, counts and orders data for a stacked bar chart. Accepts any population flag, treatment arm, and category variable |
+| `plot_stacked_bar()` | Builds a `ggplot2` stacked bar chart. Accepts custom colors, labels and axis arguments |
+
+### `utils/helper_functions.R`
+Reusable helper functions used across R programs:
+
+| Function | Purpose |
+|----------|---------|
+| `get_last_date()` | Gets the last date per subject from a source dataset. Used in ADSL to derive `LSTALVDT` from VS, AE, DS and EX sources |
 
 ---
 
@@ -77,8 +97,10 @@ into structured Pandas queries. Key features:
 - Returns unique subject count and IDs matching the query
 
 To run with mock LLM (no API key needed):
-```bash
-python3 question_4/question_4.py
+```r
+library(reticulate)
+reticulate::py_install("pandas")  # only needed on first run
+reticulate::source_python("question_4/question_4.py")
 ```
 
 To run with OpenAI API:

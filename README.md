@@ -5,6 +5,19 @@ development using pharmaverse tools, with a bonus GenAI question in Python.
 
 ---
 
+## Getting Started
+
+To clone this Github repository in Posit Cloud:
+
+1. Create a **New Project** in Posit Cloud
+2. Open the terminal and run the below commands to clone the repository:
+```bash
+   cd /cloud/project
+   git clone https://github.com/briennethompson/brie-ads-assessment.git
+```
+
+---
+
 ## Repository Structure
 
 | Folder | Contents |
@@ -122,9 +135,11 @@ logrx::axecute(
 ```
 
 ### Python Program
-```bash
-cd /cloud/project/brie-ads-assessment
-python3 question_4/question_4.py
+Since Posit Cloud manages Python through `reticulate`, run from the R console:
+```r
+library(reticulate)
+py_install("pandas")  # only needed on first run
+source_python("question_4/question_4.py")
 ```
 
 ---

@@ -11,11 +11,11 @@ logrx link to repository: https://github.com/pharmaverse/logrx
 User: r632176
 File Name: 02_create_visualizations.R
 File Path: /cloud/project/brie-ads-assessment/question_3_tlg
-File HashSum: 2cbb71f3cbd456ab78ff170a0b6f631caa708425
+File HashSum: b4affbf8cf0adc5388032920e9cbda9b8f71aa09
 --------------------------------------------------------------------------------
 -                             Session Information                              -
 --------------------------------------------------------------------------------
-─ Session info ─────────────────────────────────────────────────────────────────
+─ Session info ────────────────────────────────────────────────────────
  setting  value
  version  R version 4.5.3 (2026-03-11)
  os       Ubuntu 24.04.4 LTS
@@ -25,12 +25,12 @@ File HashSum: 2cbb71f3cbd456ab78ff170a0b6f631caa708425
  collate  C.UTF-8
  ctype    C.UTF-8
  tz       UTC
- date     2026-04-01
+ date     2026-04-02
  rstudio  2026.01.1+403.pro11 Apple Blossom (server)
  pandoc   NA
  quarto   1.8.27 @ /usr/bin/quarto
 
-─ Packages ─────────────────────────────────────────────────────────────────────
+─ Packages ────────────────────────────────────────────────────────────
  package         * version date (UTC) lib source
  admiral         * 1.4.1   2026-02-03 [1] RSPM
  admiraldev        1.4.0   2026-01-14 [1] RSPM
@@ -113,7 +113,7 @@ File HashSum: 2cbb71f3cbd456ab78ff170a0b6f631caa708425
  [2] /opt/R/4.5.3/lib/R/library
  * ── Packages attached to the search path.
 
-─ External software ────────────────────────────────────────────────────────────
+─ External software ───────────────────────────────────────────────────
  setting        value
  cairo          1.18.0
  cairoFT
@@ -137,14 +137,22 @@ File HashSum: 2cbb71f3cbd456ab78ff170a0b6f631caa708425
 	  lapack         /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so
  lapack_version 3.12.0
 
-─ Python configuration ─────────────────────────────────────────────────────────
+─ Python configuration ────────────────────────────────────────────────
  Python is not available
 
-────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────────────────────────────────────────────
 --------------------------------------------------------------------------------
 -                               Masked Functions                               -
 --------------------------------------------------------------------------------
-function `%>%` from {package:gtsummary, package:stringr, package:tidyr, package:admiral, package:metatools, package:metacore, package:testthat, package:dplyr} by package:gt
+function `ae` from {package:pharmaversesdtm} by .GlobalEnv
+function `dm` from {package:pharmaversesdtm} by .GlobalEnv
+function `ds` from {package:pharmaversesdtm} by .GlobalEnv
+function `ex` from {package:pharmaversesdtm} by .GlobalEnv
+function `suppdm` from {package:pharmaversesdtm} by .GlobalEnv
+function `vs` from {package:pharmaversesdtm} by .GlobalEnv
+function `adae` from {package:pharmaverseadam} by .GlobalEnv
+function `adsl` from {package:pharmaverseadam} by .GlobalEnv
+function `%>%` from {package:gtsummary, package:testthat, package:stringr, package:tidyr, package:admiral, package:metatools, package:metacore, package:purrr, package:dplyr} by package:gt
 function `all_of` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
 function `any_of` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
 function `contains` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
@@ -154,16 +162,20 @@ function `matches` from {package:gtsummary, package:tidyr, package:dplyr} by pac
 function `num_range` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
 function `one_of` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
 function `starts_with` from {package:gtsummary, package:tidyr, package:dplyr} by package:gt
-function `vars` from {package:gtsummary, package:dplyr} by package:gt
+function `vars` from {package:gtsummary, package:dplyr, package:ggplot2} by package:gt
 function `where` from {package:gtsummary, package:dplyr} by package:gt
 function `as_tibble` from {package:tidyr, package:dplyr} by package:gtsummary
 function `last_col` from {package:tidyr, package:dplyr} by package:gtsummary
 function `mutate` from {package:dplyr} by package:gtsummary
 function `select` from {package:dplyr} by package:gtsummary
+function `problems` from {package:sdtm.oak} by package:readr
+function `edition_get` from {package:testthat} by package:readr
+function `local_edition` from {package:testthat} by package:readr
+function `col_factor` from {package:scales} by package:readr
+function `ms` from {package:pharmaversesdtm} by package:lubridate
 function `intersect` from {package:dplyr, package:base} by package:lubridate
 function `setdiff` from {package:dplyr, package:base} by package:lubridate
 function `union` from {package:dplyr, package:base} by package:lubridate
-function `ms` from {package:pharmaversesdtm} by package:lubridate
 function `Arith` from {package:methods} by package:lubridate
 function `Compare` from {package:methods} by package:lubridate
 function `show` from {package:methods} by package:lubridate
@@ -172,32 +184,48 @@ function `date` from {package:base} by package:lubridate
 function `tibble` from {package:dplyr} by package:tidyr
 function `tribble` from {package:dplyr} by package:tidyr
 function `desc` from {package:dplyr} by package:admiral
-function `edition_get` from {package:readr} by package:testthat
-function `local_edition` from {package:readr} by package:testthat
-function `problems` from {package:sdtm.oak} by package:readr
+function `ts` from {package:stats} by package:pharmaversesdtm
+function `cm` from {package:grDevices} by package:pharmaversesdtm
+function `discard` from {package:purrr} by package:scales
+function `alpha` from {package:ggplot2} by package:scales
+function `%||%` from {package:base} by package:purrr
+function `as_label` from {package:ggplot2} by package:dplyr
+function `enexpr` from {package:ggplot2} by package:dplyr
+function `enexprs` from {package:ggplot2} by package:dplyr
+function `enquo` from {package:ggplot2} by package:dplyr
+function `enquos` from {package:ggplot2} by package:dplyr
+function `ensym` from {package:ggplot2} by package:dplyr
+function `ensyms` from {package:ggplot2} by package:dplyr
+function `expr` from {package:ggplot2} by package:dplyr
+function `quo` from {package:ggplot2} by package:dplyr
+function `quo_name` from {package:ggplot2} by package:dplyr
+function `quos` from {package:ggplot2} by package:dplyr
+function `sym` from {package:ggplot2} by package:dplyr
+function `syms` from {package:ggplot2} by package:dplyr
 function `filter` from {package:stats} by package:dplyr
 function `lag` from {package:stats} by package:dplyr
 function `setequal` from {package:base} by package:dplyr
-function `ts` from {package:stats} by package:pharmaversesdtm
-function `cm` from {package:grDevices} by package:pharmaversesdtm
+function `Position` from {package:base} by package:ggplot2
 function `plot` from {package:base} by package:graphics
 function `body<-` from {package:base} by package:methods
 function `kronecker` from {package:base} by package:methods
 --------------------------------------------------------------------------------
 -                          Used Package and Functions                          -
 --------------------------------------------------------------------------------
-{package:base} setwd, library, is.na, factor, c, seq, paste0
-{package:dplyr} filter, count, summarise, n_distinct, pull, group_by, ungroup, slice_max, arrange
-{package:ggplot2} ggplot, aes, geom_bar, scale_fill_manual, labs, ggsave, geom_errorbar, geom_point, scale_x_continuous
+{.GlobalEnv} preprocess_stacked_bar, plot_stacked_bar
+{package:base} setwd, source, library, c, is.na, factor, seq, paste0
+{package:dplyr} filter, summarise, n_distinct, pull, group_by, ungroup, slice_max, arrange
+{package:ggplot2} ggsave, ggplot, aes, geom_errorbar, geom_point, scale_x_continuous, labs
+{package:gt} %>%
 {package:gtsummary} mutate
-{package:purrr} %>%, map_dbl
+{package:purrr} map_dbl
 {package:scales} percent_format
 {package:stats} binom.test
 --------------------------------------------------------------------------------
 -                         Program Run Time Information                         -
 --------------------------------------------------------------------------------
-Start time: 2026-04-01 22:15:01 UTC
-End time: 2026-04-01 22:15:03 UTC
+Start time: 2026-04-02 20:24:45 UTC
+End time: 2026-04-02 20:24:47 UTC
 Run time: 2 seconds
 --------------------------------------------------------------------------------
 -                             Errors and Warnings                              -
@@ -211,9 +239,7 @@ Warnings:
 -                         Messages, Output, and Result                         -
 --------------------------------------------------------------------------------
 Messages:
-	Attaching package: ‘scales’
-	The following object is masked from ‘package:purrr’:    discard
-	The following object is masked from ‘package:readr’:    col_factor
+	
 Output:
 	
 
